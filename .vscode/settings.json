@@ -1,0 +1,11 @@
+{
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity",
+    "editor.formatOnSave": true,
+    "editor.rulers": [120]
+  },
+  "solidity.compileUsingRemoteVersion": "0.8.20",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
