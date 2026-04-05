@@ -44,8 +44,8 @@ jobs:
       - name: Run Task 2 fork tests (Against Ethereum mainnet)
         run: |
           echo "Running Task 2: Fork tests against mainnet..."
-          forge test --match-path "test/task2/*" -vv --fork-url https://rpc.ankr.com/eth
-
+          forge test --match-path "test/task2/*" -vv --fork-url https://ethereum-rpc.publicnode.com
+      
       - name: Run Task 3 tests (AMM implementation)
         run: |
           echo "Running Task 3: AMM tests..."
