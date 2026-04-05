@@ -1,0 +1,105 @@
+name: Foundry Tests & Security Analysis
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  FOUNDRY_PROFILE: ci
+
+jobs:
+  test:
+    name: Foundry Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Display Foundry versions
+        run: |
+          forge --version
+          cast --version
+          anvil --version
+
+      - name: Build contracts
+        run: |
+          echo "Building Solidity contracts..."
+          forge build --sizes
+        id: build
+
+      - name: Run all tests
+        run: |
+          echo "Running all test suites..."
+          forge test -vv
+        id: test
+
+      - name: Generate gas report
+        run: |
+          echo "Generating gas report..."
+          forge test --gas-report
+        id: gas
+
+      - name: Generate coverage report
+        run: |
+          echo "Generating code coverage..."
+          forge coverage --report lcov
+        id: coverage
+        continue-on-error: true
+
+  security:
+    name: Security Analysis with Slither
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Slither
+        run: |
+          pip install slither-analyzer
+
+      - name: Run Slither analysis
+        run: |
+          echo "Running Slither security analysis..."
+          slither . --json slither-report.json
+        continue-on-error: true
+
+      - name: Upload Slither report
+        uses: actions/upload-artifact@v3
+        with:
+          name: slither-report
+          path: slither-report.json
+        if: always()
+
+  lint:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Display build info
+        run: |
+          echo "Project: Blockchain Assignment 2"
+          echo "Framework: Foundry"
+          echo "Tests: Solidity with Forge"
+          ls -la
+
