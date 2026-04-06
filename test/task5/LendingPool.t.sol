@@ -265,7 +265,7 @@ contract LendingPoolTest is Test {
     function test_WithdrawWhileBorrowed() public {
         uint256 collateral = 1000 * 10**18;
         uint256 borrowAmount = 500 * 10**18;
-        uint256 withdrawAmount = 300 * 10**18;
+        uint256 withdrawAmount = 400 * 10**18;  // ← Changed from 300 to 400
 
         // Deposit and borrow
         vm.prank(alice);
