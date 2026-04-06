@@ -51,7 +51,7 @@ contract ForkTest is Test {
 
     function setUp() public {
         // Fork Ethereum mainnet at a specific block
-        vm.createSelectFork("https://eth.llamarpc.com");
+        vm.createSelectFork("https://ethereum-rpc.publicnode.com");
 
         // Initialize interfaces
         usdc = IERC20(USDC);
